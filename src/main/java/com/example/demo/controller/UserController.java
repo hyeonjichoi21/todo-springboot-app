@@ -72,6 +72,7 @@ public class UserController {
                     .id(user.getId())
                     .password(user.getPassword())
                     .token(token)
+                    .username(user.getUsername())
                     .build();
             return ResponseEntity.ok().body(responseUserDTO);
         } else {

@@ -13,19 +13,30 @@ import lombok.NoArgsConstructor;
 public class TodoDTO {
     private String id;
     private String title;
-    private boolean done;
+
+    private String userId;
+
+    private String brand;
+
+    private String type;
+
+
 
     public TodoDTO(final TodoEntity entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
-        this.done = entity.isDone();
+        this.userId = entity.getUserId();
+        this.brand = entity.getBrand();
+        this.type = entity.getType();
     }
 
     public static TodoEntity toEntity(TodoDTO dto) {
         return TodoEntity.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
-                .done(dto.isDone())
+                .userId(dto.getUserId())
+                .brand(dto.getBrand())
+                .type(dto.getType())
                 .build();
     }
 }

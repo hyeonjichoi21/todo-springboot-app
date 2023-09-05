@@ -26,6 +26,7 @@ public class TodoService {
         return savedEntity.getTitle();
     }
 
+    // 1. 추가
     public List<TodoEntity> create(final TodoEntity entity) {
         if(entity == null) {
             log.warn("Entity cannot be null.");
@@ -46,25 +47,38 @@ public class TodoService {
         
     }
 
+    // 2. 검색
     public List<TodoEntity> retrieve(final String userId) {
+
         return repository.findByUserId(userId);
     }
 
-    public List<TodoEntity> update(TodoEntity entity) {
+
+    public List<TodoEntity> retrieveTitle(final String title){
+        return repository.findByTitle(title);
+    }
+
+    // 3. 수정
+    public TodoEntity update(final TodoEntity entity) {
         validate(entity);
 
         final Optional<TodoEntity> original = repository.findById(entity.getId());
+        TodoEntity returnEntity = null;
 
-        original.ifPresent(todo -> {
+        if(original.isPresent()) {
+            final TodoEntity todo = original.get();
             todo.setTitle(entity.getTitle());
-            todo.setDone(entity.isDone());
+            todo.setBrand(entity.getBrand());
+            todo.setType(entity.getType());
 
             repository.save(todo);
-        });
+            returnEntity = todo;
+        };
 
-        return retrieve(entity.getUserId());
+        return returnEntity;
     }
 
+    // 4.삭제
     public List<TodoEntity> delete(final TodoEntity entity) {
         validate(entity);
 
@@ -77,7 +91,7 @@ public class TodoService {
 
         return retrieve(entity.getUserId());
     }
-
+    
     private void validate(final TodoEntity entity) {
         if(entity == null) {
             log.warn("Entity cannot be null.");

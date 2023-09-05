@@ -24,5 +24,8 @@ public class TodoEntity {
     private String id;
     private String userId;
     private String title;
-    private boolean done;
+    private String brand;
+
+    private String type;
+
 }
